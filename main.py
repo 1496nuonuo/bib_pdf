@@ -6,22 +6,23 @@ from get_bib import download_bib
 def del_pozhehao(mystr):
     import enchant
     import re
+    my_dict_list = ['convolutional']
     temp2 = mystr.replace('\n', ' ').strip()  # 删去换行
-    temp3 = temp2.replace('ﬁ', 'fi')  # 修改合字fi，否则搜索时搜索不出
-    temp3 = temp3.replace('ﬂ', 'fl')  # 修改合字fl，否则搜索时搜索不出
+    temp3 = temp2.replace('ﬁ', 'fi')  # 修改合字，否则搜索时搜索不出
+    temp3 = temp3.replace('ﬂ', 'fl')  # 修改合字，否则搜索时搜索不出
     temp1 = re.findall('([\s]([\S]*?)-\s([\S]*?)\s){1}', temp3, re.S)  # 找标题内容
     temp4 = re.findall('^(([\S]*?)-\s([\S]*?)\s){1}', temp3, re.S)   #开头
     temp5 = re.findall('([\s]([\S]*?)-\s([\S]*?)){1}$', temp3, re.S)  #结尾
     d = enchant.Dict("en_US")
     if len(temp4) != 0:
-        if d.check(temp4[0][1] + temp4[0][2]):
+        if d.check(temp4[0][1] + temp4[0][2]) or ((temp4[0][1] + temp4[0][2]) in my_dict_list):
             temp3_out = temp3.replace(temp4[0][0], temp4[0][1] + temp4[0][2] + ' ')
         else:
             temp3_out = temp3.replace(temp4[0][0], temp4[0][1] + ' ' + temp4[0][2] + ' ')
     else:
         temp3_out = temp3
     if len(temp5) != 0:
-        if d.check(temp5[0][1] + temp5[0][2]):
+        if d.check(temp5[0][1] + temp5[0][2]) or ((temp5[0][1] + temp5[0][2]) in my_dict_list):
             temp4_out = temp3_out.replace(temp5[0][0], ' ' + temp5[0][1] + temp5[0][2])
         else:
             temp4_out = temp3_out.replace(temp5[0][0], ' ' + temp5[0][1] + '-' + temp5[0][2])
@@ -29,7 +30,7 @@ def del_pozhehao(mystr):
         temp4_out = temp3_out
     temps = temp4_out
     for ind in range(len(temp1)):
-        if d.check(temp1[ind][1] + temp1[ind][2]):
+        if d.check(temp1[ind][1] + temp1[ind][2]) or ((temp1[ind][1] + temp1[ind][2]) in my_dict_list):
             temps = temps.replace(temp1[ind][0], ' ' + temp1[ind][1] + temp1[ind][2] + ' ')
         else:
             temps = temps.replace(temp1[ind][0], ' ' + temp1[ind][1] + '-' + temp1[ind][2] + ' ')
