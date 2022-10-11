@@ -7,7 +7,8 @@ def del_pozhehao(mystr):
     import enchant
     import re
     temp2 = mystr.replace('\n', ' ').strip()  # 删去换行
-    temp3 = temp2.replace('ﬁ', 'fi')  # 修改合字，否则搜索时搜索不出
+    temp3 = temp2.replace('ﬁ', 'fi')  # 修改合字fi，否则搜索时搜索不出
+    temp3 = temp3.replace('ﬂ', 'fl')  # 修改合字fl，否则搜索时搜索不出
     temp1 = re.findall('([\s]([\S]*?)-\s([\S]*?)\s){1}', temp3, re.S)  # 找标题内容
     temp4 = re.findall('^(([\S]*?)-\s([\S]*?)\s){1}', temp3, re.S)   #开头
     temp5 = re.findall('([\s]([\S]*?)-\s([\S]*?)){1}$', temp3, re.S)  #结尾
