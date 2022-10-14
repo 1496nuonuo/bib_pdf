@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
-def download_bib(title,num):
+def download_bib(title,num,dirname):
     #num str
     url = 'https://dblp1.uni-trier.de/search'
     data = {
@@ -23,9 +23,8 @@ def download_bib(title,num):
     b=a_bib.find_next_sibling()
     c=b.find(name="a")
     bib_download_url =c.get('href')
-    # print(bib_download_url)
     r = requests.get(bib_download_url)
-    if not os.path.exists("./bib_repostitory"):
-        os.mkdir("./bib_repostitory")
-    with open("./bib_repostitory/"+num+".bib", "wb") as code:
+    if not os.path.exists(dirname):
+        os.mkdir(dirname)
+    with open(dirname+'/'+num+".bib", "wb") as code:
         code.write(r.content)
